@@ -13,6 +13,9 @@ function App() {
   const [inputCategoryValue, setInputCategoryValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Tutti");
 
+  const [isEditindex, setIsEditIndex] = useState("");
+  const [editValue, setEditValue] = useState("");
+
   return (
     <div className="app-container">
       <div className="products">
@@ -44,6 +47,7 @@ function App() {
             setInputCategoryValue(e.target.value);
           }}
         >
+          <option>Seleziona la categoria</option>
           <option value="Alimentari">Alimentari</option>
           <option value="Bevande">Bevande</option>
           <option value="Condimenti">Condimenti</option>
@@ -92,7 +96,65 @@ function App() {
               (selectedCategory === "Tutti" ||
                 product.category === selectedCategory) && (
                 <li key={currentIndex}>
-                  {product.name}, {product.price}, {product.category}
+                  {isEditindex === currentIndex ? (
+                    <input
+                      type="text"
+                      value={editValue}
+                      onChange={(e) => setEditValue(e.target.value)}
+                    />
+                  ) : (
+                    product.name
+                  )}
+                  , {product.price}, {product.category}
+                  {isEditindex === currentIndex ? (
+                    <>
+                      <button
+                        onClick={() => {
+                          let newProductList = [...products];
+
+                          newProductList.map((product, index) => {
+                            if (index === currentIndex) {
+                              product.name = editValue;
+                            }
+                          });
+
+                          setProducts([...newProductList]);
+
+                          setIsEditIndex("");
+                        }}
+                        disabled={product.name === editValue}
+                      >
+                        Salva
+                      </button>
+                      <button
+                        onClick={() => {
+                          setIsEditIndex("");
+                        }}
+                      >
+                        {" "}
+                        Annulla{" "}
+                      </button>
+                    </>
+                  ) : (
+                    <button
+                      onClick={() => {
+                        setIsEditIndex(currentIndex);
+                        setEditValue(product.name);
+                      }}
+                    >
+                      Modifica
+                    </button>
+                  )}
+                  <span
+                    onClick={() => {
+                      const newProducts = [...products];
+                      newProducts.splice(currentIndex, 1);
+                      setProducts(newProducts);
+                    }}
+                  >
+                    {" "}
+                    X{" "}
+                  </span>
                 </li>
               )
           )}

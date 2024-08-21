@@ -1,5 +1,6 @@
 import { useState } from "react";
 import "./App.scss";
+import AddProduct from "./assets/components/addProduct/AddProduct.jsx";
 
 function App() {
   const [products, setProducts] = useState([
@@ -8,9 +9,6 @@ function App() {
     { name: "Olio", price: 5.0, category: "Condimenti" },
   ]);
 
-  const [inputNameValue, setInputNameValue] = useState("");
-  const [inputPriceValue, setInputPriceValue] = useState("");
-  const [inputCategoryValue, setInputCategoryValue] = useState("");
   const [selectedCategory, setSelectedCategory] = useState("Tutti");
 
   const [isEditindex, setIsEditIndex] = useState("");
@@ -18,56 +16,7 @@ function App() {
 
   return (
     <div className="app-container">
-      <div className="products">
-        <label>Inserisci nuovo prodotto</label>
-        <input
-          type="text"
-          name="name"
-          value={inputNameValue}
-          onChange={(e) => {
-            setInputNameValue(e.target.value);
-          }}
-          placeholder="inserisci il nome del prodotto"
-        />
-
-        <input
-          type="text"
-          name="price"
-          value={inputPriceValue}
-          onChange={(e) => {
-            setInputPriceValue(e.target.value);
-          }}
-          placeholder="inserisci il prezzo del prodotto"
-        />
-        <select
-          name="category"
-          placeholder="inserisci la cateogria del prodotto"
-          value={inputCategoryValue}
-          onChange={(e) => {
-            setInputCategoryValue(e.target.value);
-          }}
-        >
-          <option>Seleziona la categoria</option>
-          <option value="Alimentari">Alimentari</option>
-          <option value="Bevande">Bevande</option>
-          <option value="Condimenti">Condimenti</option>
-        </select>
-
-        <button
-          className="btn"
-          onClick={() => {
-            const newProduct = {
-              name: inputNameValue,
-              price: inputPriceValue,
-              category: inputCategoryValue,
-            };
-            const newProducts = [...products, newProduct];
-            setProducts(newProducts);
-          }}
-        >
-          Aggiungi nuovo prodotto
-        </button>
-      </div>
+      <AddProduct products={products} setProducts={setProducts} />
       <div>
         <label>Filtra per </label>
         <select
